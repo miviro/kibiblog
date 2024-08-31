@@ -16,12 +16,15 @@ m1v.es {
 		header {
 			Access-Control-Allow-Origin https://miviro.es
 		}
+		encode zstd gzip
 		root * /var/kibiblog/static
+		try_files {path}.html
 		file_server
 }
 
 miviro.es {
 		root * /var/kibiblog/main
+		encode zstd gzip
 		rewrite * /main.html # Replace with the path of the file you want to serve
 		file_server
 }
