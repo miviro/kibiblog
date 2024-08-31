@@ -1,0 +1,24 @@
+services:
+  caddy:
+    image: caddy-cloudflare
+    container_name: caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./kibiblog:/var/kibiblog
+    env_file: .env
+    networks:
+      - arr
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  arr:
+    external: true
