@@ -1,0 +1,27 @@
+*.miviro.es {
+        tls miviro0804@gmail.com {
+                dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+        }
+	redir https://miviro.es
+}
+
+*.m1v.es {
+	tls miviro0804@gmail.com {
+                dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+        }
+	redir https://m1v.es
+}
+
+m1v.es {
+		header {
+			Access-Control-Allow-Origin https://miviro.es
+		}
+		root * /var/kibiblog/static
+		file_server
+}
+
+miviro.es {
+		root * /var/kibiblog/main
+		rewrite * /main.html # Replace with the path of the file you want to serve
+		file_server
+}

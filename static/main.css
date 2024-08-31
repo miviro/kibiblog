@@ -1,0 +1,14 @@
+/* Styling for the centered content */
+body {
+    max-width: 800px; /* Max width for the content */
+    margin: 0 auto;   /* Centers the content horizontally */
+    padding: 0 20px;  /* Adds padding to the left and right */
+    text-align: left; /* Centers the text inside the div */
+}
+
+/* Optional: Responsive styling */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 10px;  /* Reduce padding on smaller screens */
+    }
+}
