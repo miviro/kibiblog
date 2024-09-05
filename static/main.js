@@ -10,13 +10,18 @@ function goto (path) {
     })
     .then(html => {
         document.getElementById('content').innerHTML = html;
+        window.history.pushState({ content: html}, 'miviro', path);
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
         document.getElementById('content').innerHTML = '<h1>404 Not Found</h1>';
     });
-    
-    window.history.pushState({}, 'miviro', path);
 }
+
+window.addEventListener('popstate', function (event) {
+    if (event.state) {
+        document.getElementById("content").innerHTML = event.state.content;
+    }
+});
 
 document.addEventListener('DOMContentLoaded', function () { goto(window.location.pathname); } );
