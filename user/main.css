@@ -1,0 +1,24 @@
+/* Styling for the centered content */
+body {
+    max-width: 800px; /* Max width for the content */
+    margin: 0 auto;   /* Centers the content horizontally */
+    padding: 0 20px;  /* Adds padding to the left and right */
+    text-align: left; /* Centers the text inside the div */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set a minimum height of the viewport */
+}
+
+/* Optional: Responsive styling */
+@media (max-width: 600px) {
+    body {
+        padding: 0 10px;  /* Reduce padding on smaller screens */
+    }
+}
+
+/* Styling for the footer */
+footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
+    background-color: #f5f5f5;
+    text-align: center;
+}
