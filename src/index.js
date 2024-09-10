@@ -9,21 +9,25 @@ const watcher = chokidar.watch(filepath, {
 
 function processFile(filePath) {
   const sourcePath = filePath;
-  const destinationPath = path.join(__dirname, '../static', path.basename(filePath));
 
   fs.readFile(sourcePath, 'utf8', (err, data) => {
     if (err) throw err;
 
-    const formattedData = formatFile(data);
 
+    let formattedData = data;
     // Create the directory if it doesn't exist, delete "user/" from the path
     const destinationDir = path.join(__dirname, '../static', path.dirname(filePath.replace(/^user\//, '')));
+    let destinationFile = path.join(destinationDir, path.basename(filePath));
+
+    if (path.extname(filePath) === '.md') {
+      formattedData = formatFile(data);
+      destinationFile = destinationFile.replace(/\.md$/, '.html');
+    }
+
 
     if (!fs.existsSync(destinationDir)) {
       fs.mkdirSync(destinationDir, { recursive: true });
     }
-
-    const destinationFile = path.join(destinationDir, path.basename(filePath));
 
     fs.writeFile(destinationFile, formattedData, 'utf8', (err) => {
       if (err) throw err;
@@ -33,24 +37,27 @@ function processFile(filePath) {
 }
 
 function formatFile(data) {
-  return data;
+  return data.split('\n').map(line => {
+    if (line.startsWith('# ')) {
+      return `<h1>${line.slice(2)}</h1>`;
+    }
+    return line;
+  }).join('\n');
 }
 
-function processDirectory(dirPath) {
-  fs.readdir(dirPath, { withFileTypes: true }, (err, files) => {
+function deleteFile(filePath) {
+  let destinationFile = path.join(__dirname, '../static', filePath.replace(/^user\//, ''));
+  
+  if (path.extname(filePath) === '.md') {
+    destinationFile = destinationFile.replace(/\.md$/, '.html');
+  }
+
+  fs.unlink(destinationFile, (err) => {
     if (err) throw err;
-    files.forEach((file) => {
-      const filePath = path.join(dirPath, file.name);
-      if (file.isDirectory()) {
-        processDirectory(filePath);
-      } else {
-        processFile(filePath);
-      }
-    });
+    console.log(`${destinationFile} deleted successfully.`);
   });
 }
 
-
 watcher.on('change', processFile);
 watcher.on('add', processFile);
-watcher.on('unlink', processFile);
+watcher.on('unlink', deleteFile);
