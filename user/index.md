@@ -1,6 +1,2 @@
 Welcome to my blog! This is a simple blog that I created using my own framework, <a href="http://github.com/miviro/kibiblog">kibiblog</a>.
 
-<h2>Posts</h2>
-<ul>
-    <li onclick="goto('/helloworld')">helloworld</li>
-</ul>
